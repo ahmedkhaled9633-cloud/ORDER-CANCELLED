@@ -11,17 +11,17 @@
         button { background: #0066cc; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
         button:hover { background: #004d99; }
         nav { background: #333; padding: 10px; border-radius: 5px; margin-bottom: 20px; display: flex; gap: 5px; flex-wrap: wrap; }
-        nav button { background: #444; width: auto; flex: 1; padding: 8px; font-size: 13px; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        nav button { background: #444; width: auto; flex: 1; padding: 10px; font-size: 14px; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
         nav button.active { background: #0066cc; }
         .badge { background: #e0f0ff; color: #004d99; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- شاشة اختيار الفرع -->
+    <!-- الصفحة الرئيسية: الداش بورد (اختيار الفرع) -->
     <div id="branch-screen" class="card">
         <h2>نظام إدارة صيدليات الفروع</h2>
-        <p>الرجاء اختيار فرعك للبدء:</p>
+        <p>اختر الفرع للوصول إلى لوحة التحكم الخاصة به:</p>
         <select id="selected-branch-ui">
             <option value="الجامعه">الجامعه</option>
             <option value="الدراسات 2">الدراسات 2</option>
@@ -47,30 +47,39 @@
             <option value="نبروه">نبروه</option>
             <option value="سوديك">سوديك</option>
         </select>
-        <button onclick="loginToBranch()">دخول للنظام</button>
+        <button onclick="loginToBranch()">دخول لوحة التحكم</button>
     </div>
 
-    <!-- لوحة التحكم -->
+    <!-- لوحة التحكم الداخلية (تظهر بعد اختيار الفرع) -->
     <div id="app-screen" class="hidden">
         <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px 20px; border-radius: 5px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
             <span id="current-branch-badge" class="badge"></span>
-            <button onclick="logout()" style="width: auto; background: #cc0000; padding: 6px 15px; font-size: 13px; color:white; border:none; border-radius:4px; cursor:pointer;">تغيير الفرع</button>
+            <button onclick="logout()" style="width: auto; background: #cc0000; padding: 6px 15px; font-size: 13px; color:white; border:none; border-radius:4px; cursor:pointer;">خروج / تغيير الفرع</button>
         </div>
 
+        <!-- الأقسام الثلاثة الداخلية -->
         <nav>
-            <button onclick="switchTab('orders')" id="btn-orders" class="active">الأوردرات</button>
+            <button onclick="switchTab('cancellations')" id="btn-cancellations" class="active">الإلغاءات</button>
+            <button onclick="switchTab('good')" id="btn-good">الجيد</button>
             <button onclick="switchTab('delays')" id="btn-delays">التأخيرات</button>
-            <button onclick="switchTab('cancellations')" id="btn-cancellations">الإلغاءات</button>
-            <button onclick="switchTab('reports')" id="btn-reports">التقارير</button>
         </nav>
 
         <div class="card" style="max-width: 100%; margin: 0;">
-            <!-- صفحة الأوردرات -->
-            <div id="tab-orders" class="tab-content">
-                <h3>تسجيل أوردر جديد</h3>
-                <input type="text" id="ord-detail1" placeholder="رقم الأوردر أو اسم العميل">
-                <input type="text" id="ord-detail2" placeholder="قيمة الأوردر (ج.م)">
-                <button onclick="sendData('أوردر جديد', 'ord-detail1', 'ord-detail2')">حفظ الأوردر</button>
+            
+            <!-- صفحة الإلغاءات -->
+            <div id="tab-cancellations" class="tab-content">
+                <h3>تسجيل إلغاء</h3>
+                <input type="text" id="canc-detail1" placeholder="رقم الأوردر الملغي">
+                <input type="text" id="canc-detail2" placeholder="سبب الإلغاء">
+                <button onclick="sendData('إلغاء', 'canc-detail1', 'canc-detail2')" style="background: #cc0000;">حفظ الإلغاء</button>
+            </div>
+
+            <!-- صفحة الجيد -->
+            <div id="tab-good" class="tab-content hidden">
+                <h3>تسجيل أوردر / تقييم الجيد</h3>
+                <input type="text" id="good-detail1" placeholder="رقم الأوردر أو اسم العميل">
+                <input type="text" id="good-detail2" placeholder="التفاصيل / القيمة (ج.م)">
+                <button onclick="sendData('جيد', 'good-detail1', 'good-detail2')" style="background: #28a745;">حفظ قسم الجيد</button>
             </div>
 
             <!-- صفحة التأخيرات -->
@@ -78,24 +87,9 @@
                 <h3>تسجيل تأخير</h3>
                 <input type="text" id="delay-detail1" placeholder="اسم الموظف">
                 <input type="text" id="delay-detail2" placeholder="سبب التأخير ومدته">
-                <button onclick="sendData('تأخير', 'delay-detail1', 'delay-detail2')" style="background: #e68a00;">تسجيل التأخير</button>
+                <button onclick="sendData('تأخير', 'delay-detail1', 'delay-detail2')" style="background: #e68a00;">حفظ التأخير</button>
             </div>
 
-            <!-- صفحة الإلغاءات -->
-            <div id="tab-cancellations" class="tab-content hidden">
-                <h3>تسجيل إلغاء</h3>
-                <input type="text" id="canc-detail1" placeholder="رقم الأوردر الملغي">
-                <input type="text" id="canc-detail2" placeholder="سبب الإلغاء">
-                <button onclick="sendData('إلغاء', 'canc-detail1', 'canc-detail2')" style="background: #cc0000;">تسجيل الإلغاء</button>
-            </div>
-
-            <!-- صفحة التقارير -->
-            <div id="tab-reports" class="tab-content hidden">
-                <h3>ملخص التقارير الشاملة</h3>
-                <p>يمكنك مراجعة كافة البيانات المسجلة لحظياً من جدول البيانات المركزي.</p>
-                <br>
-                <button onclick="window.print()" style="background: #333;">🖨️ طباعة التقرير</button>
-            </div>
         </div>
     </div>
 
@@ -105,7 +99,7 @@
 
         function loginToBranch() {
             currentBranch = document.getElementById('selected-branch-ui').value;
-            document.getElementById('current-branch-badge').innerText = "الفرع: " + currentBranch;
+            document.getElementById('current-branch-badge').innerText = "الفرع الحالي: " + currentBranch;
             document.getElementById('branch-screen').classList.add('hidden');
             document.getElementById('app-screen').classList.remove('hidden');
         }
