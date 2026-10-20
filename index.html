@@ -67,7 +67,7 @@
 
         <div class="card" style="max-width: 100%; margin: 0;">
             
-            <!-- صفحة الإلغاءات (بالتعديلات الجديدة) -->
+            <!-- صفحة الإلغاءات -->
             <div id="tab-cancellations" class="tab-content">
                 <h3 style="color: #cc0000; border-bottom: 2px solid #cc0000; padding-bottom: 8px;">تسجيل إلغاء أوردر</h3>
                 
@@ -123,7 +123,7 @@
 
     <script>
         let currentBranch = '';
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyQ-StvT6ba59PpVpcJu4xGP2nSeXm4jDlMeXbHIwoBVV81ylOFu2Agcq4OP2cXaVJ__w/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzz2do8NPSBv4kKWxgOdITalgYWuMSpnfPGRctHqelHq0p3UHPDSRW5tyZGW3V5VMLgiA/exec';
 
         function loginToBranch() {
             currentBranch = document.getElementById('selected-branch-ui').value;
@@ -145,7 +145,6 @@
             document.getElementById('btn-' + tabName).classList.add('active');
         }
 
-        // دالة خاصة بقسم الإلغاءات للتحقق من اسم المندوب وإرسال البيانات بالشكل الجديد
         function sendCancellationData() {
             const ord = document.getElementById('canc-ord').value;
             const reason = document.getElementById('canc-reason').value;
@@ -181,7 +180,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                alert('تم حفظ بيانات الإلغاء بنجاح وتحديد الشيفت والوقت تلقائياً!');
+                alert('تم حفظ بيانات الإلغاء بنجاح وتوثيق اليوم والشفت بدقة!');
                 document.getElementById('canc-ord').value = '';
                 document.getElementById('canc-reason').selectedIndex = 0;
                 document.getElementById('canc-driver').value = '';
@@ -192,7 +191,6 @@
             });
         }
 
-        // الدالة العامة للأقسام الأخرى
         function sendData(type, id1, id2) {
             const d1 = document.getElementById(id1).value;
             const d2 = document.getElementById(id2).value;
