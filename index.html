@@ -58,7 +58,6 @@
             <button onclick="logout()" style="width: auto; background: #cc0000; padding: 6px 15px; font-size: 13px; color:white; border:none; border-radius:4px; cursor:pointer;">خروج / تغيير الفرع</button>
         </div>
 
-        <!-- الأقسام الثلاثة -->
         <nav>
             <button onclick="switchTab('cancellations')" id="btn-cancellations" class="active">الإلغاءات</button>
             <button onclick="switchTab('good')" id="btn-good">الجيد</button>
@@ -99,7 +98,7 @@
                 <label>ملاحظات إضافية:</label>
                 <textarea id="canc-notes" placeholder="اكتب أي ملاحظات هنا..." rows="3" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;"></textarea>
 
-                <button onclick="sendCancellationData()" style="background: #cc0000; margin-top: 15px;">حفظ الإلغاء</button>
+                <button onclick="checkAndSendCancellation('add')" style="background: #cc0000; margin-top: 15px;">حفظ الإلغاء</button>
             </div>
 
             <!-- صفحة الجيد -->
@@ -123,7 +122,7 @@
 
     <script>
         let currentBranch = '';
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzz2do8NPSBv4kKWxgOdITalgYWuMSpnfPGRctHqelHq0p3UHPDSRW5tyZGW3V5VMLgiA/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzj2iNodudjBLkNbbGjkXAjV577Ea9mPlWiQ9sjDhcjPNnfbAcRLSrrxwy73_GZtNo/exec';
 
         function loginToBranch() {
             currentBranch = document.getElementById('selected-branch-ui').value;
@@ -145,7 +144,8 @@
             document.getElementById('btn-' + tabName).classList.add('active');
         }
 
-        function sendCancellationData() {
+        // فحص تكرار الأوردر أولاً قبل الحفظ
+        function checkAndSendCancellation(actionType, targetRow = null) {
             const ord = document.getElementById('canc-ord').value;
             const reason = document.getElementById('canc-reason').value;
             const driver = document.getElementById('canc-driver').value;
@@ -165,7 +165,51 @@
                 return;
             }
 
+            // إذا كنا ننفذ تحديث أو حذف مباشرة بناءً على اختيار المستخدم
+            if (actionType === 'update' || actionType === 'delete') {
+                executeDBSync(actionType, targetRow, ord, reason, driver, notes);
+                return;
+            }
+
+            // الخطوة الأولى: فحص هل الأوردر موجود مسبقاً في الشيت لنفس الفرع؟
+            const checkPayload = {
+                action: 'check',
+                branch: currentBranch,
+                detail1: ord
+            };
+
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(checkPayload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'exists') {
+                    // الأوردر موجود مسبقاً، نسأل المستخدم (تعديل أم حذف؟)
+                    let userChoice = confirm("⚠️ هذا الأوردر تم تسجيله من قبل في هذا الفرع!\n\n- اضغط (موافق / OK) إذا أردت [تعديل] وتحديث بياناته.\n- اضغط (إلغاء / Cancel) إذا أردت [حذف] السجل القديم.");
+                    
+                    if (userChoice) {
+                        // اختيار تعديل واستبدال البيانات القديمة
+                        executeDBSync('update', data.row, ord, reason, driver, notes);
+                    } else {
+                        // اختيار حذف السجل القديم
+                        executeDBSync('delete', data.row, ord, reason, driver, notes);
+                    }
+                } else {
+                    // الأوردر غير موجود، أضفه كأوردر جديد
+                    executeDBSync('add', null, ord, reason, driver, notes);
+                }
+            })
+            .catch(error => {
+                alert('حدث خطأ أثناء فحص البيانات.');
+            });
+        }
+
+        // دالة تنفيذ العملية المباشرة مع جوجل شيت
+        function executeDBSync(action, rowNum, ord, reason, driver, notes) {
             const payload = {
+                action: action,
+                row: rowNum,
                 branch: currentBranch,
                 type: 'إلغاء',
                 detail1: ord,
@@ -180,7 +224,15 @@
             })
             .then(response => response.json())
             .then(data => {
-                alert('تم حفظ بيانات الإلغاء بنجاح وتوثيق اليوم والشفت بدقة!');
+                if (action === 'delete') {
+                    alert('🗑️ تم حذف الأوردر القديم من قاعدة البيانات بنجاح!');
+                } else if (action === 'update') {
+                    alert('✏️ تم تعديل وتحديث بيانات الأوردر في جوجل شيت بنجاح!');
+                } else {
+                    alert('✅ تم حفظ بيانات الإلغاء الجديدة بنجاح!');
+                }
+                
+                // تفريغ الحقول
                 document.getElementById('canc-ord').value = '';
                 document.getElementById('canc-reason').selectedIndex = 0;
                 document.getElementById('canc-driver').value = '';
@@ -201,6 +253,7 @@
             }
 
             const payload = {
+                action: 'add',
                 branch: currentBranch,
                 type: type,
                 detail1: d1,
