@@ -5,20 +5,21 @@
     <title>نظام إدارة صيدليات الفروع</title>
     <style>
         body { font-family: Tahoma, sans-serif; background: #f4f4f9; margin: 0; padding: 20px; text-align: right; }
-        .card { background: white; padding: 20px; border-radius: 8px; max-width: 450px; margin: 30px auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .card { background: white; padding: 20px; border-radius: 8px; max-width: 500px; margin: 30px auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .hidden { display: none !important; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
         button { background: #0066cc; color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
         button:hover { background: #004d99; }
         nav { background: #333; padding: 10px; border-radius: 5px; margin-bottom: 20px; display: flex; gap: 5px; flex-wrap: wrap; }
         nav button { background: #444; width: auto; flex: 1; padding: 10px; font-size: 14px; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
         nav button.active { background: #0066cc; }
         .badge { background: #e0f0ff; color: #004d99; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        label { font-weight: bold; font-size: 13px; color: #333; margin-top: 5px; display: block; }
     </style>
 </head>
 <body>
 
-    <!-- الصفحة الرئيسية: الداش بورد (اختيار الفرع) -->
+    <!-- الصفحة الرئيسية: اختيار الفرع -->
     <div id="branch-screen" class="card">
         <h2>نظام إدارة صيدليات الفروع</h2>
         <p>اختر الفرع للوصول إلى لوحة التحكم الخاصة به:</p>
@@ -50,14 +51,14 @@
         <button onclick="loginToBranch()">دخول لوحة التحكم</button>
     </div>
 
-    <!-- لوحة التحكم الداخلية (تظهر بعد اختيار الفرع) -->
+    <!-- لوحة التحكم الداخلية -->
     <div id="app-screen" class="hidden">
         <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 10px 20px; border-radius: 5px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
             <span id="current-branch-badge" class="badge"></span>
             <button onclick="logout()" style="width: auto; background: #cc0000; padding: 6px 15px; font-size: 13px; color:white; border:none; border-radius:4px; cursor:pointer;">خروج / تغيير الفرع</button>
         </div>
 
-        <!-- الأقسام الثلاثة الداخلية -->
+        <!-- الأقسام الثلاثة -->
         <nav>
             <button onclick="switchTab('cancellations')" id="btn-cancellations" class="active">الإلغاءات</button>
             <button onclick="switchTab('good')" id="btn-good">الجيد</button>
@@ -66,12 +67,39 @@
 
         <div class="card" style="max-width: 100%; margin: 0;">
             
-            <!-- صفحة الإلغاءات -->
+            <!-- صفحة الإلغاءات (بالتعديلات الجديدة) -->
             <div id="tab-cancellations" class="tab-content">
-                <h3>تسجيل إلغاء</h3>
-                <input type="text" id="canc-detail1" placeholder="رقم الأوردر الملغي">
-                <input type="text" id="canc-detail2" placeholder="سبب الإلغاء">
-                <button onclick="sendData('إلغاء', 'canc-detail1', 'canc-detail2')" style="background: #cc0000;">حفظ الإلغاء</button>
+                <h3 style="color: #cc0000; border-bottom: 2px solid #cc0000; padding-bottom: 8px;">تسجيل إلغاء أوردر</h3>
+                
+                <label>رقم الأوردر الملغي (اكتبه أو امسح الباركود):</label>
+                <input type="text" id="canc-ord" placeholder="امسح الباركود أو اكتب رقم الأوردر هنا...">
+
+                <label>سبب الإلغاء (اختر من القائمة):</label>
+                <select id="canc-reason">
+                    <option value="">-- اختر سبب الإلغاء --</option>
+                    <option value="الغاء بسبب تلف الفيزا">الغاء بسبب تلف الفيزا</option>
+                    <option value="الغاء سابق">الغاء سابق</option>
+                    <option value="الغاء طلبه">الغاء طلبه</option>
+                    <option value="الغاء عميل">الغاء عميل</option>
+                    <option value="الغاء كول سنتر">الغاء كول سنتر</option>
+                    <option value="تغيير عنوان">تغيير عنوان</option>
+                    <option value="خارج نطاق الفرع">خارج نطاق الفرع</option>
+                    <option value="خطاب الأوردر">خطاب الأوردر</option>
+                    <option value="سبب آخر">سبب آخر</option>
+                    <option value="طالب فيزا">طالب فيزا</option>
+                    <option value="عميل لم يطلب أوردر">عميل لم يطلب أوردر</option>
+                    <option value="عميل محتاج أوردر كامل">عميل محتاج أوردر كامل</option>
+                    <option value="عنوان خطأ">عنوان خطأ</option>
+                    <option value="مكرر">مكرر</option>
+                </select>
+
+                <label>اسم المندوب (إجباري):</label>
+                <input type="text" id="canc-driver" placeholder="أدخل اسم المندوب المسؤول...">
+
+                <label>ملاحظات إضافية:</label>
+                <textarea id="canc-notes" placeholder="اكتب أي ملاحظات هنا..." rows="3" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;"></textarea>
+
+                <button onclick="sendCancellationData()" style="background: #cc0000; margin-top: 15px;">حفظ الإلغاء</button>
             </div>
 
             <!-- صفحة الجيد -->
@@ -95,7 +123,7 @@
 
     <script>
         let currentBranch = '';
-        const scriptURL = 'ضع_رابط_الويب_الخاص_بك_هنا'; // ضع رابط الـ Apps Script الخاص بك هنا
+        const scriptURL = 'ضع_رابط_الويب_الخاص_بك_هنا'; // ضع رابط الـ Apps Script هنا
 
         function loginToBranch() {
             currentBranch = document.getElementById('selected-branch-ui').value;
@@ -117,6 +145,54 @@
             document.getElementById('btn-' + tabName).classList.add('active');
         }
 
+        // دالة خاصة بقسم الإلغاءات للتحقق من اسم المندوب وإرسال البيانات بالشكل الجديد
+        function sendCancellationData() {
+            const ord = document.getElementById('canc-ord').value;
+            const reason = document.getElementById('canc-reason').value;
+            const driver = document.getElementById('canc-driver').value;
+            const notes = document.getElementById('canc-notes').value;
+
+            if (!ord) {
+                alert('الرجاء إدخال أو عمل سكان لرقم الأوردر الملغي!');
+                return;
+            }
+            if (!reason) {
+                alert('الرجاء اختيار سبب الإلغاء من القائمة!');
+                return;
+            }
+            if (!driver.trim()) {
+                alert('عذراً، لا يمكن الحفظ بدون كتابة اسم المندوب!');
+                document.getElementById('canc-driver').focus();
+                return;
+            }
+
+            const payload = {
+                branch: currentBranch,
+                type: 'إلغاء',
+                detail1: ord,
+                detail2: reason,
+                detail3: driver,
+                detail4: notes
+            };
+
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('تم حفظ بيانات الإلغاء بنجاح وتحديد الشيفت والوقت تلقائياً!');
+                document.getElementById('canc-ord').value = '';
+                document.getElementById('canc-reason').selectedIndex = 0;
+                document.getElementById('canc-driver').value = '';
+                document.getElementById('canc-notes').value = '';
+            })
+            .catch(error => {
+                alert('حدث خطأ أثناء الاتصال بقاعدة البيانات.');
+            });
+        }
+
+        // الدالة العامة للأقسام الأخرى
         function sendData(type, id1, id2) {
             const d1 = document.getElementById(id1).value;
             const d2 = document.getElementById(id2).value;
@@ -130,7 +206,9 @@
                 branch: currentBranch,
                 type: type,
                 detail1: d1,
-                detail2: d2
+                detail2: d2,
+                detail3: '',
+                detail4: ''
             };
 
             fetch(scriptURL, {
@@ -139,7 +217,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                alert('تم حفظ وتسجيل البيانات بنجاح في الإدارة المركزية!');
+                alert('تم حفظ وتسجيل البيانات بنجاح!');
                 document.getElementById(id1).value = '';
                 document.getElementById(id2).value = '';
             })
