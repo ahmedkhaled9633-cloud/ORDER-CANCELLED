@@ -32,49 +32,52 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* زر الدارك مود خارج الديف الرئيسي في أقصى الشمال */
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: var(--card-bg);
-            color: var(--text-color);
-            border: 1px solid var(--input-border);
-            padding: 8px 12px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        /* الهيدر العريض الجديد */
+        /* الهيدر العريض (مستوحى من لون اللوجو العنابي/النبيتي) وزر الدارك مود بداخله أقصى اليسار */
         .header-banner {
             width: 80%; /* يترك 10% يمين و 10% يسار */
             margin: 40px auto 20px auto;
-            background: linear-gradient(135deg, #0066cc, #004d99);
+            background: #58111A; /* لون مستوحى من اللوجو */
             color: white;
-            border-radius: 12px;
-            padding: 20% 5%; /* ترك مسافة داخلية من الهيدر نفسة تقريباً */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            padding: 15px 5%; 
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
         }
 
-        .header-title {
-            font-size: 26px;
-            font-weight: bold;
+        .header-logo {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            border-radius: 50%;
         }
 
-        .header-logo {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            margin-left: 10%; /* مسافة من الشمال داخل الديف */
-            background: white;
-            padding: 5px;
+        .header-title {
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        /* زر الدارك مود داخل الهيدر أقصى اليسار */
+        .theme-toggle {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .card { 
@@ -101,7 +104,7 @@
             font-size: 14px; 
         }
 
-        button { 
+        button.action-btn { 
             background: #0066cc; 
             color: white; 
             border: none; 
@@ -112,7 +115,7 @@
             font-size: 16px; 
             font-weight: bold; 
         }
-        button:hover { background: #004d99; }
+        button.action-btn:hover { background: #004d99; }
 
         nav { 
             background: var(--nav-bg); 
@@ -143,14 +146,16 @@
 </head>
 <body>
 
-    <!-- أيقونة الدارك مود في أقصى شمال الصفحة بره الهيدر -->
-    <button class="theme-toggle" onclick="toggleTheme()" title="تغيير المظهر">🌙</button>
-
-    <!-- الهيدر العريض الرئيسي -->
+    <!-- الهيدر العريض (اللوجو يمين، الاسم في المنتصف، ودارك مود أقصى اليسار) -->
     <div class="header-banner">
-        <div class="header-title">صيدليات آل عبداللطيف الطرشوبي</div>
-        <!-- استبدل رابط الصورة أدناه برابط اللوجو الخاص بك أو اسم الملف -->
+        <!-- اللوجو على اليمين -->
         <img src="LOGO.png" alt="Logo" class="header-logo" id="logo-img">
+        
+        <!-- اسم الصيدليات في المنتصف -->
+        <div class="header-title">صيدليات آل عبداللطيف الطرشوبي</div>
+        
+        <!-- زر الدارك مود أقصى اليسار داخل الهيدر -->
+        <button class="theme-toggle" onclick="toggleTheme()" title="تغيير المظهر">🌙</button>
     </div>
 
     <!-- الصفحة الرئيسية: اختيار الفرع -->
@@ -182,7 +187,7 @@
             <option value="نبروه">نبروه</option>
             <option value="سوديك">سوديك</option>
         </select>
-        <button onclick="loginToBranch()">دخول لوحة التحكم</button>
+        <button class="action-btn" onclick="loginToBranch()">دخول لوحة التحكم</button>
     </div>
 
     <!-- لوحة التحكم الداخلية -->
@@ -232,7 +237,7 @@
                 <label>ملاحظات إضافية:</label>
                 <textarea id="canc-notes" placeholder="اكتب أي ملاحظات هنا..." rows="3" style="width:100%; padding:10px; border:1px solid var(--input-border); background:var(--input-bg); color:var(--text-color); border-radius:5px; box-sizing:border-box;"></textarea>
 
-                <button onclick="checkAndSendCancellation('add')" style="background: #cc0000; margin-top: 15px;">حفظ الإلغاء</button>
+                <button class="action-btn" onclick="checkAndSendCancellation('add')" style="background: #cc0000; margin-top: 15px;">حفظ الإلغاء</button>
             </div>
 
             <!-- صفحة الجيد -->
@@ -240,7 +245,7 @@
                 <h3>تسجيل أوردر / تقييم الجيد</h3>
                 <input type="text" id="good-detail1" placeholder="رقم الأوردر أو اسم العميل">
                 <input type="text" id="good-detail2" placeholder="التفاصيل / القيمة (ج.م)">
-                <button onclick="sendData('جيد', 'good-detail1', 'good-detail2')" style="background: #28a745;">حفظ قسم الجيد</button>
+                <button class="action-btn" onclick="sendData('جيد', 'good-detail1', 'good-detail2')" style="background: #28a745;">حفظ قسم الجيد</button>
             </div>
 
             <!-- صفحة التأخيرات -->
@@ -248,7 +253,7 @@
                 <h3>تسجيل تأخير</h3>
                 <input type="text" id="delay-detail1" placeholder="اسم الموظف">
                 <input type="text" id="delay-detail2" placeholder="سبب التأخير ومدته">
-                <button onclick="sendData('تأخير', 'delay-detail1', 'delay-detail2')" style="background: #e68a00;">حفظ التأخير</button>
+                <button class="action-btn" onclick="sendData('تأخير', 'delay-detail1', 'delay-detail2')" style="background: #e68a00;">حفظ التأخير</button>
             </div>
 
         </div>
@@ -256,9 +261,8 @@
 
     <script>
         let currentBranch = '';
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyltecTpAQa3PRxMUsCEar4nUOZyNPXI9NerFhVkiDe-Z2D2en-xMaARSKpis3zZvyPRg/exec'; //    Apps Script هنا
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyltecTpAQa3PRxMUsCEar4nUOZyNPXI9NerFhVkiDe-Z2D2en-xMaARSKpis3zZvyPRg/exec'; Apps Script هنا
 
-        // دالة تبديل المظهر (Dark / Light Mode)
         function toggleTheme() {
             const html = document.documentElement;
             const btn = document.querySelector('.theme-toggle');
@@ -407,8 +411,8 @@
             .then(response => response.json())
             .then(data => {
                 alert('تم حفظ وتسجيل البيانات بنجاح!');
-                document.getElementById(id1).value = ``;
-                document.getElementById(id2).value = ``;
+                document.getElementById(id1).value = '';
+                document.getElementById(id2).value = '';
             })
             .catch(error => {
                 alert('حدث خطأ أثناء الاتصال بقاعدة البيانات.');
