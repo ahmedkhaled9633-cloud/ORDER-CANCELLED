@@ -32,7 +32,7 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* زر الدارك مود في أقصى الشمال بره الهيدر */
+        /* زر الدارك مود خارج الديف الرئيسي في أقصى الشمال */
         .theme-toggle {
             position: absolute;
             top: 20px;
@@ -47,15 +47,15 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* الهيدر العريض بحجم صغير ومناسب (20 بكسل فوق وتحت) */
+        /* الهيدر العريض الجديد */
         .header-banner {
             width: 80%; /* يترك 10% يمين و 10% يسار */
             margin: 40px auto 20px auto;
             background: linear-gradient(135deg, #0066cc, #004d99);
             color: white;
-            border-radius: 10px;
-            padding: 20px 5%; /* 20 بكسل فوق وتحت */
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            padding: 20% 5%; /* ترك مسافة داخلية من الهيدر نفسة تقريباً */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -63,17 +63,17 @@
         }
 
         .header-title {
-            font-size: 22px;
+            font-size: 26px;
             font-weight: bold;
         }
 
         .header-logo {
-            width: 55px;
-            height: 55px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
             margin-left: 10%; /* مسافة من الشمال داخل الديف */
             background: white;
-            padding: 4px;
+            padding: 5px;
             border-radius: 50%;
         }
 
@@ -143,14 +143,14 @@
 </head>
 <body>
 
-    <!-- أيقونة الدارك مود في أقصى الشمال بره الهيدر -->
+    <!-- أيقونة الدارك مود في أقصى شمال الصفحة بره الهيدر -->
     <button class="theme-toggle" onclick="toggleTheme()" title="تغيير المظهر">🌙</button>
 
-    <!-- الهيدر العريض بحجم صغير ومناسب -->
+    <!-- الهيدر العريض الرئيسي -->
     <div class="header-banner">
         <div class="header-title">صيدليات آل عبداللطيف الطرشوبي</div>
-        <!-- ضع اسم صورة اللوجو هنا (مثلاً logo.png) أو الرابط المباشر -->
-        <img src="logo.png" alt="Logo" class="header-logo" id="logo-img">
+        <!-- استبدل رابط الصورة أدناه برابط اللوجو الخاص بك أو اسم الملف -->
+        <img src="LOGO.png" alt="Logo" class="header-logo" id="logo-img">
     </div>
 
     <!-- الصفحة الرئيسية: اختيار الفرع -->
@@ -256,8 +256,9 @@
 
     <script>
         let currentBranch = '';
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyltecTpAQa3PRxMUsCEar4nUOZyNPXI9NerFhVkiDe-Z2D2en-xMaARSKpis3zZvyPRg/exec'; Apps Script هنا
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyltecTpAQa3PRxMUsCEar4nUOZyNPXI9NerFhVkiDe-Z2D2en-xMaARSKpis3zZvyPRg/exec'; //    Apps Script هنا
 
+        // دالة تبديل المظهر (Dark / Light Mode)
         function toggleTheme() {
             const html = document.documentElement;
             const btn = document.querySelector('.theme-toggle');
@@ -406,8 +407,8 @@
             .then(response => response.json())
             .then(data => {
                 alert('تم حفظ وتسجيل البيانات بنجاح!');
-                document.getElementById(id1).value = '';
-                document.getElementById(id2).value = '';
+                document.getElementById(id1).value = ``;
+                document.getElementById(id2).value = ``;
             })
             .catch(error => {
                 alert('حدث خطأ أثناء الاتصال بقاعدة البيانات.');
