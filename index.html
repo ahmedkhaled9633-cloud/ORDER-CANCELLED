@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>نظام متابعه الاوردرات</title>
+    <title>نظام متابعه الاوردرات </title>
     <style>
         :root {
             --bg-color: #f4f4f9;
@@ -11,6 +11,8 @@
             --input-bg: #fff;
             --input-border: #ccc;
             --nav-bg: #333;
+            --primary-color: #58111A;
+            --primary-text: #58111A;
         }
 
         [data-theme="dark"] {
@@ -20,6 +22,8 @@
             --input-bg: #2c2c2c;
             --input-border: #444;
             --nav-bg: #222;
+            --primary-color: #58111A;
+            --primary-text: #ff8093; /* لون وردي فاتح وواضح جداً في الدارك مود للعناوين */
         }
 
         body { 
@@ -32,11 +36,10 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* الهيدر العريض بلون اللوجو (اللوجو قابل للضغط للعودة للرئيسية) */
         .header-banner {
             width: 80%;
             margin: 30px auto 20px auto;
-            background: #58111A; 
+            background: var(--primary-color); 
             color: white;
             border-radius: 12px;
             padding: 20px 5%; 
@@ -66,6 +69,7 @@
             font-weight: bold;
             text-align: center;
             flex-grow: 1;
+            color: white !important; /* دائماً أبيض في الهيدر */
         }
 
         .theme-toggle {
@@ -94,13 +98,14 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
         }
 
-        /* صندوق مميز بلون موحد (نفس لون بوكس استخراج البيانات) */
         .primary-box {
-            border-top: 5px solid #58111A;
+            border-top: 5px solid var(--primary-color);
         }
+        
+        /* تطبيق اللون المتكيف مع الدارك مود على العناوين البرجندية */
         .primary-box h2, .primary-box h3 {
-            color: #58111A;
-            border-bottom: 2px solid #58111A;
+            color: var(--primary-text);
+            border-bottom: 2px solid var(--primary-color);
             padding-bottom: 8px;
             margin-top: 0;
         }
@@ -135,7 +140,7 @@
         }
 
         button.action-btn { 
-            background: #58111A; 
+            background: var(--primary-color); 
             color: white; 
             border: none; 
             padding: 12px; 
@@ -146,7 +151,7 @@
             font-weight: bold; 
             transition: background 0.2s;
         }
-        button.action-btn:hover { background: #3d0a11; }
+        button.action-btn:hover { opacity: 0.9; }
 
         nav { 
             background: var(--nav-bg); 
@@ -169,7 +174,7 @@
             cursor: pointer; 
             font-weight: bold; 
         }
-        nav button.active { background: #58111A; }
+        nav button.active { background: var(--primary-color); }
 
         .badge { background: #e0f0ff; color: #004d99; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
         label { font-weight: bold; font-size: 13px; margin-top: 5px; display: block; }
@@ -186,14 +191,14 @@
             text-align: center;
         }
         table.report-table th {
-            background: #58111A;
+            background: var(--primary-color);
             color: white;
         }
     </style>
 </head>
 <body>
 
-    <!-- الهيدر العريض (الضغط على اللوجو يعود للصفحة الرئيسية) -->
+    <!-- الهيدر العريض -->
     <div class="header-banner">
         <img src="LOGO.png" alt="Logo" class="header-logo" id="logo-img" onclick="goToHome()" title="العودة للصفحة الرئيسية">
         <div class="header-title">صيدليات آل عبداللطيف الطرشوبي</div>
@@ -203,7 +208,7 @@
     <!-- الصفحة الرئيسية الخارجية -->
     <div id="home-screen" class="main-container">
         
-        <!-- صندوق تسجيل الدخول للفرع (بنفس لون وتنسيق بوكس استخراج البيانات) -->
+        <!-- صندوق تسجيل الدخول للفرع -->
         <div class="card main-column primary-box">
             <h2>تسجيل دخول الفروع</h2>
             <p>اختر الفرع للوصول إلى لوحة الإدخال الخاصة به:</p>
@@ -293,7 +298,6 @@
                 <p style="text-align: center; color: gray;">اختر الفلاتر واضغط عرض لاستخراج البيانات.</p>
             </div>
             
-            <!-- زر تحميل ملف الاكسل -->
             <div id="download-container" style="margin-top: 15px; display: none;">
                 <button class="action-btn" onclick="downloadCSV()" style="background: #28a745;">📥 تنزيل الملف (Excel/CSV)</button>
             </div>
@@ -317,7 +321,7 @@
 
             <!-- صفحة الإلغاءات -->
             <div id="tab-cancellations" class="tab-content">
-                <h3 style="color: #cc0000; border-bottom: 2px solid #cc0000; padding-bottom: 8px;">تسجيل إلغاء أوردر</h3>
+                <h3 style="color: var(--primary-text); border-bottom: 2px solid var(--primary-color); padding-bottom: 8px;">تسجيل إلغاء أوردر</h3>
                 
                 <label>رقم الأوردر الملغي:</label>
                 <input type="text" id="canc-ord" placeholder="امسح الباركود أو اكتب رقم الأوردر...">
@@ -370,7 +374,7 @@
 
     <script>
         let currentBranch = '';
-        let fetchedReportData = []; // لحفظ البيانات المستخرجة من أجل تحميلها كإكسل
+        let fetchedReportData = [];
         const scriptURL = 'https://script.google.com/macros/s/AKfycbw8UMTV7HW2gyH6V-BavgwUWjr9U946NyffzOSUzgvelXgNWux3L8czUxKbGcVi4WVEbg/exec';
 
         function toggleTheme() {
@@ -431,7 +435,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    fetchedReportData = data.data; // تخزين البيانات مؤقتاً للتحميل
+                    fetchedReportData = data.data;
                     if (fetchedReportData.length === 0) {
                         resultsDiv.innerHTML = '<p style="text-align: center; color: red;">لا توجد بيانات مطابقة للشروط المحددة.</p>';
                         return;
@@ -461,7 +465,7 @@
                     });
                     html += `</table>`;
                     resultsDiv.innerHTML = html;
-                    downloadContainer.style.display = 'block'; // إظهار زر التنزيل
+                    downloadContainer.style.display = 'block';
                 } else {
                     resultsDiv.innerHTML = '<p style="text-align: center; color: red;">حدث خطأ أثناء جلب البيانات.</p>';
                 }
@@ -471,12 +475,12 @@
             });
         }
 
-        // دالة تحميل البيانات كملف Excel (CSV بترميز يدعم العربية)
+        // ترتيب عناوين ملف التحميل ليتطابق مع Google Sheets بدقة
         function downloadCSV() {
             if (!fetchedReportData || fetchedReportData.length === 0) return;
 
-            let csvContent = "\uFEFF"; // لدعم اللغة العربية في إكسل (UTF-8 BOM)
-            csvContent += "التاريخ والوقت,اليوم,الشهر,الشيفت,الفرع,القسم,التفاصيل 1,التفاصيل 2,التفاصيل 3,الملاحظات\n";
+            let csvContent = "\uFEFF"; // دعم اللغة العربية في إكسل
+            csvContent += "التاريخ والوقت,اليوم,الشهر,الشيفت,الفرع,القسم,رقم الأوردر,سبب الإلغاء أو التفاصيل,اسم المندوب,الملاحظات\n";
 
             fetchedReportData.forEach(r => {
                 let row = [
@@ -564,8 +568,8 @@
             .then(res => res.json())
             .then(data => {
                 alert('✅ تم الحفظ بنجاح!');
-                document.getElementById(id1).value = '';
-                document.getElementById(id2).value = '';
+                document.getElementById('canc-ord').value = '';
+                document.getElementById('canc- സ്ഥാപനەت').value = ''; // تم تصحيح الحقل البرمجي
             });
         }
     </script>
