@@ -32,7 +32,7 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* الهيدر العريض بلون اللوجو مع تكبير اللوجو والعنوان */
+        /* الهيدر العريض بلون اللوجو */
         .header-banner {
             width: 80%;
             margin: 30px auto 20px auto;
@@ -86,27 +86,23 @@
             color: var(--text-color);
             padding: 25px; 
             border-radius: 10px; 
-            max-width: 500px; 
-            margin: 20px auto; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
         }
 
-        /* تصميم الداشبورد الجديد (جنباً إلى جنب) */
-        .dashboard-container {
+        /* تصميم الصفحة الرئيسية والداشبورد (جنباً إلى جنب) */
+        .main-container {
             display: flex;
             gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .dash-column {
+        .main-column {
             flex: 1;
             min-width: 350px;
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 550px;
         }
 
         .hidden { display: none !important; }
@@ -188,165 +184,165 @@
         <button class="theme-toggle" onclick="toggleTheme()" title="تغيير المظهر">🌙</button>
     </div>
 
-    <!-- الصفحة الرئيسية: اختيار الفرع للدخول -->
-    <div id="branch-screen" class="card">
-        <h2>نظام متابعه الاوردرات</h2>
-        <p>اختر الفرع للوصول إلى لوحة التحكم الخاصة به:</p>
-        <select id="selected-branch-ui">
-            <option value="الجامعه">الجامعه</option>
-            <option value="الدراسات 2">الدراسات 2</option>
-            <option value="دمياط الجديده">دمياط الجديده</option>
-            <option value="ارابيسك">ارابيسك</option>
-            <option value="شيراتون">شيراتون</option>
-            <option value="الزعفران">الزعفران</option>
-            <option value="الجولف">الجولف</option>
-            <option value="دمياط القديمه">دمياط القديمه</option>
-            <option value="اركان">اركان</option>
-            <option value="الرحاب">الرحاب</option>
-            <option value="مدينه بورسعيد">مدينه بورسعيد</option>
-            <option value="ناصر النادى">ناصر النادى</option>
-            <option value="المنزله">المنزله</option>
-            <option value="مدينه نصر">مدينه نصر</option>
-            <option value="المنتزه">المنتزه</option>
-            <option value="طلخا">طلخا</option>
-            <option value="ميت غمر">ميت غمر</option>
-            <option value="الاسماعليه">الاسماعليه</option>
-            <option value="تيفولى">تيفولى</option>
-            <option value="الطحان">الطحان</option>
-            <option value="كفر الشيخ">كفر الشيخ</option>
-            <option value="نبروه">نبروه</option>
-            <option value="سوديك">سوديك</option>
-        </select>
-        <button class="action-btn" onclick="loginToBranch()">دخول لوحة التحكم</button>
-    </div>
-
-    <!-- لوحة التحكم الداخلية (مقسومة لجزأين) -->
-    <div id="app-screen" class="hidden">
-        <div style="max-width: 1200px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); padding: 12px 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-            <span id="current-branch-badge" class="badge"></span>
-            <button onclick="logout()" style="width: auto; background: #cc0000; padding: 6px 15px; font-size: 13px; color:white; border:none; border-radius:4px; cursor:pointer;">خروج / تغيير الفرع</button>
+    <!-- الصفحة الرئيسية الخارجية (تضم اختيار الفرع + بوكس استخراج البيانات جنباً إلى جنب) -->
+    <div id="home-screen" class="main-container">
+        
+        <!-- صندوق تسجيل الدخول للفرع -->
+        <div class="card main-column">
+            <h2>تسجيل دخول الفروع</h2>
+            <p>اختر الفرع للوصول إلى لوحة الإدخال الخاصة به:</p>
+            <select id="selected-branch-ui">
+                <option value="الجامعه">الجامعه</option>
+                <option value="الدراسات 2">الدراسات 2</option>
+                <option value="دمياط الجديده">دمياط الجديده</option>
+                <option value="ارابيسك">ارابيسك</option>
+                <option value="شيراتون">شيراتون</option>
+                <option value="الزعفران">الزعفران</option>
+                <option value="الجولف">الجولف</option>
+                <option value="دمياط القديمه">دمياط القديمه</option>
+                <option value="اركان">اركان</option>
+                <option value="الرحاب">الرحاب</option>
+                <option value="مدينه بورسعيد">مدينه بورسعيد</option>
+                <option value="ناصر النادى">ناصر النادى</option>
+                <option value="المنزله">المنزله</option>
+                <option value="مدينه نصر">مدينه نصر</option>
+                <option value="المنتزه">المنتزه</option>
+                <option value="طلخا">طلخا</option>
+                <option value="ميت غمر">ميت غمر</option>
+                <option value="الاسماعليه">الاسماعليه</option>
+                <option value="تيفولى">تيفولى</option>
+                <option value="الطحان">الطحان</option>
+                <option value="كفر الشيخ">كفر الشيخ</option>
+                <option value="نبروه">نبروه</option>
+                <option value="سوديك">سوديك</option>
+            </select>
+            <button class="action-btn" onclick="loginToBranch()" style="margin-top: 15px;">دخول لوحة الإدخال</button>
         </div>
 
-        <div class="dashboard-container">
+        <!-- صندوق استخراج وعرض البيانات الخارجي -->
+        <div class="card main-column">
+            <h3 style="border-bottom: 2px solid #58111A; padding-bottom: 8px; color: #58111A; margin-top: 0;">📊 استخراج وعرض البيانات</h3>
             
-            <!-- الجانب الأيمن: النماذج والإدخال -->
-            <div class="dash-column">
-                <nav>
-                    <button onclick="switchTab('cancellations')" id="btn-cancellations" class="active">الإلغاءات</button>
-                    <button onclick="switchTab('good')" id="btn-good">الجيد</button>
-                    <button onclick="switchTab('delays')" id="btn-delays">التأخيرات</button>
-                </nav>
+            <label>اختر الفرع للعرض:</label>
+            <select id="report-branch">
+                <option value="الكل">🌐 جميع الفروع</option>
+                <option value="الجامعه">الجامعه</option>
+                <option value="الدراسات 2">الدراسات 2</option>
+                <option value="دمياط الجديده">دمياط الجديده</option>
+                <option value="ارابيسك">ارابيسك</option>
+                <option value="شيراتون">شيراتون</option>
+                <option value="الزعفران">الزعفران</option>
+                <option value="الجولف">الجولف</option>
+                <option value="دمياط القديمه">دمياط القديمه</option>
+                <option value="اركان">اركان</option>
+                <option value="الرحاب">الرحاب</option>
+                <option value="مدينه بورسعيد">مدينه بورسعيد</option>
+                <option value="ناصر النادى">ناصر النادى</option>
+                <option value="المنزله">المنزله</option>
+                <option value="مدينه نصر">مدينه نصر</option>
+                <option value="المنتزه">المنتزه</option>
+                <option value="طلخا">طلخا</option>
+                <option value="ميت غمر">ميت غمر</option>
+                <option value="الاسماعليه">الاسماعليه</option>
+                <option value="تيفولى">تيفولى</option>
+                <option value="الطحان">الطحان</option>
+                <option value="كفر الشيخ">كفر الشيخ</option>
+                <option value="نبروه">نبروه</option>
+                <option value="سوديك">سوديك</option>
+            </select>
 
-                <!-- صفحة الإلغاءات -->
-                <div id="tab-cancellations" class="tab-content">
-                    <h3 style="color: #cc0000; border-bottom: 2px solid #cc0000; padding-bottom: 8px;">تسجيل إلغاء أوردر</h3>
-                    
-                    <label>رقم الأوردر الملغي:</label>
-                    <input type="text" id="canc-ord" placeholder="امسح الباركود أو اكتب رقم الأوردر...">
+            <label>اختر القسم:</label>
+            <select id="report-type">
+                <option value="الكل">📂 جميع الأقسام</option>
+                <option value="إلغاء">إلغاءات</option>
+                <option value="جيد">الجيد</option>
+                <option value="تأخير">تأخيرات</option>
+            </select>
 
-                    <label>سبب الإلغاء:</label>
-                    <select id="canc-reason">
-                        <option value="">-- اختر سبب الإلغاء --</option>
-                        <option value="الغاء بسبب تلف الفيزا">الغاء بسبب تلف الفيزا</option>
-                        <option value="الغاء سابق">الغاء سابق</option>
-                        <option value="الغاء طلبه">الغاء طلبه</option>
-                        <option value="الغاء عميل">الغاء عميل</option>
-                        <option value="الغاء كول سنتر">الغاء كول سنتر</option>
-                        <option value="تغيير عنوان">تغيير عنوان</option>
-                        <option value="خارج نطاق الفرع">خارج نطاق الفرع</option>
-                        <option value="خطاب الأوردر">خطاب الأوردر</option>
-                        <option value="سبب آخر">سبب آخر</option>
-                        <option value="طالب فيزا">طالب فيزا</option>
-                        <option value="عميل لم يطلب أوردر">عميل لم يطلب أوردر</option>
-                        <option value="عميل محتاج أوردر كامل">عميل محتاج أوردر كامل</option>
-                        <option value="عنوان خطأ">عنوان خطأ</option>
-                        <option value="مكرر">مكرر</option>
-                    </select>
-
-                    <label>اسم المندوب:</label>
-                    <input type="text" id="canc-driver" placeholder="أدخل اسم المندوب المسؤول...">
-
-                    <label>ملاحظات إضافية:</label>
-                    <textarea id="canc-notes" placeholder="ملاحظات..." rows="3" style="width:100%; padding:10px; border:1px solid var(--input-border); background:var(--input-bg); color:var(--text-color); border-radius:5px; box-sizing:border-box;"></textarea>
-
-                    <button class="action-btn" onclick="checkAndSendCancellation('add')" style="background: #cc0000; margin-top: 15px;">حفظ الإلغاء</button>
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>من تاريخ:</label>
+                    <input type="date" id="start-date">
                 </div>
-
-                <!-- صفحة الجيد -->
-                <div id="tab-good" class="tab-content hidden">
-                    <h3>تسجيل أوردر / تقييم الجيد</h3>
-                    <input type="text" id="good-detail1" placeholder="رقم الأوردر أو اسم العميل">
-                    <input type="text" id="good-detail2" placeholder="التفاصيل / القيمة (ج.م)">
-                    <button class="action-btn" onclick="sendData('جيد', 'good-detail1', 'good-detail2')" style="background: #28a745;">حفظ قسم الجيد</button>
-                </div>
-
-                <!-- صفحة التأخيرات -->
-                <div id="tab-delays" class="tab-content hidden">
-                    <h3>تسجيل تأخير</h3>
-                    <input type="text" id="delay-detail1" placeholder="اسم الموظف">
-                    <input type="text" id="delay-detail2" placeholder="سبب التأخير ومدته">
-                    <button class="action-btn" onclick="sendData('تأخير', 'delay-detail1', 'delay-detail2')" style="background: #e68a00;">حفظ التأخير</button>
+                <div style="flex: 1;">
+                    <label>إلى تاريخ:</label>
+                    <input type="date" id="end-date">
                 </div>
             </div>
 
-            <!-- الجانب الأيسر: بوكس استخراج وعرض الداتا المتقدم -->
-            <div class="dash-column">
-                <h3 style="border-bottom: 2px solid #58111A; padding-bottom: 8px; color: #58111A;">📊 استخراج وعرض البيانات</h3>
+            <button class="action-btn" onclick="fetchReports()" style="background: #58111A; margin-top: 15px;">🔍 عرض البيانات واستخراجها</button>
+
+            <div id="report-results" style="margin-top: 15px; max-height: 250px; overflow-y: auto;">
+                <p style="text-align: center; color: gray;">اختر الفلاتر واضغط عرض لاستخراج البيانات.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- لوحة التحكم الداخلية (خاصة بإدخال الأوردرات والتأخيرات للفرع المحدد) -->
+    <div id="app-screen" class="hidden" style="max-width: 600px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <span id="current-branch-badge" class="badge"></span>
+            <button onclick="logout()" style="width: auto; background: #cc0000; padding: 6px 15px; font-size: 13px; color:white; border:none; border-radius:4px; cursor:pointer;">خروج للرئيسية</button>
+        </div>
+
+        <div class="card">
+            <nav>
+                <button onclick="switchTab('cancellations')" id="btn-cancellations" class="active">الإلغاءات</button>
+                <button onclick="switchTab('good')" id="btn-good">الجيد</button>
+                <button onclick="switchTab('delays')" id="btn-delays">التأخيرات</button>
+            </nav>
+
+            <!-- صفحة الإلغاءات -->
+            <div id="tab-cancellations" class="tab-content">
+                <h3 style="color: #cc0000; border-bottom: 2px solid #cc0000; padding-bottom: 8px;">تسجيل إلغاء أوردر</h3>
                 
-                <label>اختر الفرع للعرض:</label>
-                <select id="report-branch">
-                    <option value="الكل">🌐 جميع الفروع</option>
-                    <option value="الجامعه">الجامعه</option>
-                    <option value="الدراسات 2">الدراسات 2</option>
-                    <option value="دمياط الجديده">دمياط الجديده</option>
-                    <option value="ارابيسك">ارابيسك</option>
-                    <option value="شيراتون">شيراتون</option>
-                    <option value="الزعفران">الزعفران</option>
-                    <option value="الجولف">الجولف</option>
-                    <option value="دمياط القديمه">دمياط القديمه</option>
-                    <option value="اركان">اركان</option>
-                    <option value="الرحاب">الرحاب</option>
-                    <option value="مدينه بورسعيد">مدينه بورسعيد</option>
-                    <option value="ناصر النادى">ناصر النادى</option>
-                    <option value="المنزله">المنزله</option>
-                    <option value="مدينه نصر">مدينه نصر</option>
-                    <option value="المنتزه">المنتزه</option>
-                    <option value="طلخا">طلخا</option>
-                    <option value="ميت غمر">ميت غمر</option>
-                    <option value="الاسماعليه">الاسماعليه</option>
-                    <option value="تيفولى">تيفولى</option>
-                    <option value="الطحان">الطحان</option>
-                    <option value="كفر الشيخ">كفر الشيخ</option>
-                    <option value="نبروه">نبروه</option>
-                    <option value="سوديك">سوديك</option>
+                <label>رقم الأوردر الملغي:</label>
+                <input type="text" id="canc-ord" placeholder="امسح الباركود أو اكتب رقم الأوردر...">
+
+                <label>سبب الإلغاء:</label>
+                <select id="canc-reason">
+                    <option value="">-- اختر سبب الإلغاء --</option>
+                    <option value="الغاء بسبب تلف الفيزا">الغاء بسبب تلف الفيزا</option>
+                    <option value="الغاء سابق">الغاء سابق</option>
+                    <option value="الغاء طلبه">الغاء طلبه</option>
+                    <option value="الغاء عميل">الغاء عميل</option>
+                    <option value="الغاء كول سنتر">الغاء كول سنتر</option>
+                    <option value="تغيير عنوان">تغيير عنوان</option>
+                    <option value="خارج نطاق الفرع">خارج نطاق الفرع</option>
+                    <option value="خطاب الأوردر">خطاب الأوردر</option>
+                    <option value="سبب آخر">سبب آخر</option>
+                    <option value="طالب فيزا">طالب فيزا</option>
+                    <option value="عميل لم يطلب أوردر">عميل لم يطلب أوردر</option>
+                    <option value="عميل محتاج أوردر كامل">عميل محتاج أوردر كامل</option>
+                    <option value="عنوان خطأ">عنوان خطأ</option>
+                    <option value="مكرر">مكرر</option>
                 </select>
 
-                <label>اختر القسم:</label>
-                <select id="report-type">
-                    <option value="الكل">📂 جميع الأقسام</option>
-                    <option value="إلغاء">إلغاءات</option>
-                    <option value="جيد">الجيد</option>
-                    <option value="تأخير">تأخيرات</option>
-                </select>
+                <label>اسم المندوب:</label>
+                <input type="text" id="canc-driver" placeholder="أدخل اسم المندوب المسؤول...">
 
-                <div style="display: flex; gap: 10px;">
-                    <div style="flex: 1;">
-                        <label>من تاريخ:</label>
-                        <input type="date" id="start-date">
-                    </div>
-                    <div style="flex: 1;">
-                        <label>إلى تاريخ:</label>
-                        <input type="date" id="end-date">
-                    </div>
-                </div>
+                <label>ملاحظات إضافية:</label>
+                <textarea id="canc-notes" placeholder="ملاحظات..." rows="3" style="width:100%; padding:10px; border:1px solid var(--input-border); background:var(--input-bg); color:var(--text-color); border-radius:5px; box-sizing:border-box;"></textarea>
 
-                <button class="action-btn" onclick="fetchReports()" style="background: #58111A; margin-top: 15px;">🔍 عرض البيانات واستخراجها</button>
-
-                <div id="report-results" style="margin-top: 15px; max-height: 350px; overflow-y: auto;">
-                    <p style="text-align: center; color: gray;">اختر الفلاتر واضغط عرض لاستخراج البيانات.</p>
-                </div>
+                <button class="action-btn" onclick="checkAndSendCancellation('add')" style="background: #cc0000; margin-top: 15px;">حفظ الإلغاء</button>
             </div>
 
+            <!-- صفحة الجيد -->
+            <div id="tab-good" class="tab-content hidden">
+                <h3>تسجيل أوردر / تقييم الجيد</h3>
+                <input type="text" id="good-detail1" placeholder="رقم الأوردر أو اسم العميل">
+                <input type="text" id="good-detail2" placeholder="التفاصيل / القيمة (ج.م)">
+                <button class="action-btn" onclick="sendData('جيد', 'good-detail1', 'good-detail2')" style="background: #28a745;">حفظ قسم الجيد</button>
+            </div>
+
+            <!-- صفحة التأخيرات -->
+            <div id="tab-delays" class="tab-content hidden">
+                <h3>تسجيل تأخير</h3>
+                <input type="text" id="delay-detail1" placeholder="اسم الموظف">
+                <input type="text" id="delay-detail2" placeholder="سبب التأخير ومدته">
+                <button class="action-btn" onclick="sendData('تأخير', 'delay-detail1', 'delay-detail2')" style="background: #e68a00;">حفظ التأخير</button>
+            </div>
         </div>
     </div>
 
@@ -369,16 +365,13 @@
         function loginToBranch() {
             currentBranch = document.getElementById('selected-branch-ui').value;
             document.getElementById('current-branch-badge').innerText = "الفرع الحالي: " + currentBranch;
-            document.getElementById('branch-screen').classList.add('hidden');
+            document.getElementById('home-screen').classList.add('hidden');
             document.getElementById('app-screen').classList.remove('hidden');
-            
-            // ضبط فرع التقرير ليطابق الفرع الحالي تلقائياً للتسهيل
-            document.getElementById('report-branch').value = currentBranch;
         }
 
         function logout() {
             document.getElementById('app-screen').classList.add('hidden');
-            document.getElementById('branch-screen').classList.remove('hidden');
+            document.getElementById('home-screen').classList.remove('hidden');
         }
 
         function switchTab(tabName) {
@@ -389,7 +382,6 @@
             document.getElementById('btn-' + tabName).classList.add('active');
         }
 
-        // جلب واستخراج التقارير بناءً على الفلاتر والأجندة
         function fetchReports() {
             const reqBranch = document.getElementById('report-branch').value;
             const reqType = document.getElementById('report-type').value;
@@ -422,11 +414,10 @@
 
                     let html = `<table class="report-table">
                         <tr>
-                            <th>التاريخ والوقت</th>
+                            <th>الوقت</th>
                             <th>الفرع</th>
                             <th>القسم</th>
                             <th>التفاصيل</th>
-                            <th>المندوب / سبب</th>
                         </tr>`;
                     
                     rows.forEach(r => {
@@ -434,8 +425,7 @@
                             <td>${r.datetime}</td>
                             <td>${r.branch}</td>
                             <td>${r.type}</td>
-                            <td>${r.detail1}</td>
-                            <td>${r.detail2} ${r.detail3 ? ' - ' + r.detail3 : ''}</td>
+                            <td>${r.detail1} ${r.detail2 ? ' - ' + r.detail2 : ''}</td>
                         </tr>`;
                     });
                     html += `</table>`;
